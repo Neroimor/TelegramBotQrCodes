@@ -19,8 +19,8 @@ public class SenderTgMessage {
     HashMap <String, String> text_map;
     public SenderTgMessage() {
         text_map = new HashMap();
-        text_map.put("/start", "Привет, я твой бот для генерации qr кодов!!!\n" +
-                "Просто пришли мне текст и я преобразую его в qr код");
+        text_map.put("/start", "Привет, я твой бот для генерации QR кодов!!!\n" +
+                "Просто пришли мне текст и я преобразую его в qr код или отправь QR код и я переведу его в текст.");
         text_map.put("hello", "Привет");
     }
 
