@@ -9,11 +9,9 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import java.io.IOException;
 import java.util.HashMap;
 
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-
-public class TextMessage {
+public class SenderTgMessage {
     HashMap <String, String> text_map;
-    public TextMessage() {
+    public SenderTgMessage() {
         text_map = new HashMap();
         text_map.put("/start", "Привет, я твой бот для генерации qr кодов!!!\n" +
                 "Просто пришли мне текст и я преобразую его в qr код");
