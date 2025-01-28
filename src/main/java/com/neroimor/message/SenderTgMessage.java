@@ -1,13 +1,19 @@
 package com.neroimor.message;
 
+import com.google.zxing.ChecksumException;
+import com.google.zxing.FormatException;
+import com.google.zxing.NotFoundException;
 import com.google.zxing.WriterException;
 import com.neroimor.Generator.GenerateQrCode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.PhotoSize;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 public class SenderTgMessage {
     HashMap <String, String> text_map;
@@ -33,4 +39,14 @@ public class SenderTgMessage {
         send.setPhoto(new GenerateQrCode().generateQR(data));
         return send;
     }
+
+    public SendMessage sendMessageDecoder(Update update, Image QRCode) throws WriterException, IOException, ChecksumException, NotFoundException, FormatException {
+        String chatId = update.getMessage().getChatId().toString();
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(chatId);
+        sendMessage.setText(new GenerateQrCode().recodingQrCode(QRCode));
+        return sendMessage;
+    }
+
+
 }

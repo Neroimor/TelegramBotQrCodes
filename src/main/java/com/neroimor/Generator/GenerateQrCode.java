@@ -1,10 +1,10 @@
 package com.neroimor.Generator;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
+import com.google.zxing.*;
+import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.BitMatrix;
+import com.google.zxing.common.HybridBinarizer;
+import com.google.zxing.qrcode.QRCodeReader;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 
 import javax.imageio.ImageIO;
@@ -40,5 +40,17 @@ public class GenerateQrCode {
         File tempFile = File.createTempFile("QRCode", ".png");
         ImageIO.write(image, "jpg", tempFile);
         return new InputFile(tempFile);
+    }
+
+    public String recodingQrCode(Image qrImage) throws WriterException, IOException, ChecksumException, NotFoundException, FormatException {
+        QRCodeReader reader = new QRCodeReader();
+
+        LuminanceSource source = new BufferedImageLuminanceSource((BufferedImage) qrImage);
+        BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+
+        // Декодируем QR-код
+        Result result = reader.decode(bitmap);
+
+        return result.getText();
     }
 }
