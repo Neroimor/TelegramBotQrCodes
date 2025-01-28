@@ -1,11 +1,14 @@
 package com.neroimor;
 
+import com.neroimor.message.TextMessage;
 import com.neroimor.settings.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 
 public class TelegramBot extends TelegramLongPollingBot {
@@ -23,6 +26,15 @@ public class TelegramBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         if(update.hasMessage() && update.getMessage().hasText()){
             String message = update.getMessage().getText();
+            SendMessage sendMessage = switch (message){
+                case "/start" -> new TextMessage().sendMassage(update);
+                default -> new TextMessage().sendMassageDefault(update);
+            };
+            try {
+                execute(sendMessage);
+            } catch (TelegramApiException e) {
+                throw new RuntimeException(e);
+            }
             log.info(message);
         }
     }
